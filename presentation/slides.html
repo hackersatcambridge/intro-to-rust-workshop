@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+    <head>
+	<meta charset="utf-8">
+
+	<title>Introduction to Rust</title>
+
+	<meta name="description" content="Introduction to Rust">
+
+		<meta name="author" content="Robin McCorkell" />
+	
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+	
+	<link rel="stylesheet" href="css/custom.css" id="theme">
+
+	<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+	
+
+	<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+	<script>
+	    document.write( '<link rel="stylesheet" href="css/print/' +
+		( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + 
+		'.css" type="text/css" media="print">' );
+	</script>
+
+	<!--[if lt IE 9]>
+	<script src="lib/js/html5shiv.js"></script>
+	<![endif]-->
+	    </head>
+
+    <body>
+	
+	<div class="reveal">
+
+	    <!-- Any section element inside of this container is displayed as a slide -->
+	    <div class="slides">
+
+		<section data-background="img/intro-background.png">
+		    <h1>Introduction to Rust</h1>
+		    <h3>Robin McCorkell</h3>
+		    <h4>2017-11-09</h4>
+		</section>
+
+		
+		<section id="what-is-rust" class="slide level1">
+<h1>What is Rust?</h1>
+<ul>
+<li>Modern C++-like language, version 1.0 released in 2015</li>
+<li>Designed for systems programming</li>
+<li>Guarantees memory safety</li>
+<li>Merges functional, imperative and object-oriented features</li>
+<li>Cross-platform, including the web</li>
+<li>&quot;Most loved programming language&quot; *</li>
+</ul>
+<p>* Stack Overflow Developer Survey 2016 and 2017</p>
+<aside class="notes">
+<ul>
+<li>Started by Mozilla</li>
+<li>Now in use by a growing number of companies</li>
+<li>Often compared to Golang, a Google language, but have different goals</li>
+</ul>
+</aside>
+</section>
+<section id="getting-started" class="slide level1">
+<h1>Getting Started</h1>
+<section id="installing-rustup" class="level2">
+<h2>Installing rustup</h2>
+<p><a href="https://www.rustup.rs">www.rustup.rs</a></p>
+<ul>
+<li>On Windows, run the installer, then open a command prompt or PowerShell prompt.</li>
+<li>On Mac, run the shell command in a terminal, then open a new terminal.</li>
+<li>On Linux, install a distro package or run the shell command, then open a new terminal.</li>
+</ul>
+<p>To test, run: <code>rustc --version</code></p>
+<aside class="notes">
+<p>If broken, <code>rustup install toolchain stable</code></p>
+<ul>
+<li>Nightly vs stable</li>
+<li>rustup allows installing different toolchain versions</li>
+<li>E.g. specific project using special version of nightly (toolchain override)</li>
+</ul>
+</aside>
+</section>
+<section id="the-build-system" class="level2">
+<h2>The Build System</h2>
+<figure>
+<img src="img/crates.io.png" alt="crates.io" /><figcaption>crates.io</figcaption>
+</figure>
+<aside class="notes">
+<p>Cargo is the de-facto build system, handling dependency management, project compilation, external build scripts, publishing releases (to crates.io), and more</p>
+<ul>
+<li>Use Cargo to create a new project</li>
+<li>All config in Cargo.toml, very simple INI-like syntax (TOML)</li>
+<li>Strong integration with crates.io, community resource for Rust libraries (crates)</li>
+</ul>
+<p>Basic commands, write on whiteboard: * <code>cargo init [--bin]</code> (defaults to library) * <code>cargo run</code> * <code>cargo search &lt;query&gt;</code> * <code>cargo test</code></p>
+</aside>
+</section>
+</section>
+<section id="starting-simple" class="slide level1">
+<h1>Starting Simple</h1>
+<section id="lets-make-a-program" class="level2">
+<h2>Let's Make a Program</h2>
+<p>We're going to write a simple logging object.</p>
+<figure>
+<img src="img/simple-prog.png" alt="What we should see" /><figcaption>What we should see</figcaption>
+</figure>
+<aside class="notes">
+<p>Go to live example</p>
+<ol type="1">
+<li>Write Logger trait, <code>fn log(&amp;self, message: &amp;str)</code></li>
+<li>LogPrinter struct contains a u32 message ID</li>
+<li>Run, see immutability error</li>
+<li>Fix error with <code>Cell&lt;u32&gt;</code></li>
+</ol>
+</aside>
+</section>
+<section id="objects" class="level2">
+<h2>Objects</h2>
+<ul>
+<li>Interfaces defined as traits, that can be implemented by other types</li>
+<li>To make a method, need to explicitly include a <code>self</code> parameter</li>
+<li><code>self</code> will own the object (i.e. move it)</li>
+<li><code>&amp;self</code> will borrow the object (immutable)</li>
+<li><code>&amp;mut self</code> will mutably borrow the object</li>
+<li>We can hide inner mutability with a <code>Cell</code></li>
+</ul>
+<aside class="notes">
+<ul>
+<li><code>fn log()</code> borrows the logger object, and takes an immutable string</li>
+<li>Returns nothing</li>
+<li><p>Special syntax for self/this: elided from <code>self: &amp;Self</code></p></li>
+<li>Implement 'constructor', just another method</li>
+<li>Need a return type of the object (could also use <code>Self</code>)</li>
+<li><p>Automatic return if last semicolon omitted</p></li>
+<li>Don't really want to make <code>log()</code> take a mutable object, non-sensical</li>
+<li>Message ID is an implementation detail</li>
+<li>Use <code>Cell</code> to hide the mutable implementation detail</li>
+<li><code>use std::cell::Cell</code>, then <code>Cell::new(v)</code>, <code>cell.get()</code> and <code>cell.set(v)</code></li>
+<li>Rust ensures that data is owned in one place only</li>
+</ul>
+</aside>
+</section>
+<section id="strings" class="level2">
+<h2>Strings</h2>
+<ul>
+<li>We used <code>&amp;str</code> to borrow a string</li>
+<li>String literals like <code>&quot;Hello, world!&quot;</code> are actually statically allocated</li>
+<li>Static objects cannot be modified and can only be read by immutable reference, just like borrowing!</li>
+<li>We could have taken an owned <code>String</code>, but that causes allocations</li>
+<li>The <code>println!()</code> macro takes a format string and some number of args</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Reference to <code>str</code>, i.e. immutable string</li>
+<li>Contrast with owned <code>String</code></li>
+<li>Use <code>println!()</code> macro, similar to other languages</li>
+<li>Macros deliniated by the bang after the identifier</li>
+</ul>
+</aside>
+</section>
+</section>
+<section id="something-a-bit-more-advanced" class="slide level1">
+<h1>Something a Bit More Advanced</h1>
+<section id="lets-write-a-web-server" class="level2">
+<h2>Let's write a web server!</h2>
+<figure>
+<img src="img/web-server.png" alt="Rust makes web servers easy" /><figcaption>Rust makes web servers easy</figcaption>
+</figure>
+<aside class="notes">
+<p>NEED NIGHTLY</p>
+<p><code>rustup override set nightly</code> in new project directory, also <code>rustup update</code></p>
+<p>Go to live example</p>
+<ol type="1">
+<li>Go to Rocket HTTP docs</li>
+<li>Basic hello world example with Rocket</li>
+<li>Create <code>/hello/&lt;name&gt;</code> endpoint with <code>String</code></li>
+<li>Use match on name to add special message</li>
+<li>Create <code>/fizzbuzz/&lt;n&gt;</code> endpoint with u32</li>
+<li>Manually parse u32 from <code>String</code>, using unwrap</li>
+<li>Switch unwrap for matching</li>
+<li>Extend fizzbuzz with iterators to print all from 1 to n</li>
+</ol>
+</aside>
+</section>
+<section id="external-libraries-crates" class="level2">
+<h2>External Libraries (Crates)</h2>
+<ul>
+<li>Download from crates.io</li>
+<li>Cargo will handle pulling dependencies matching the versions you want, and compiling them</li>
+<li>Link them into your project with <code>extern crate</code></li>
+<li>Some crates need Rust nightly, most work with stable Rust</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Can use <code>cargo search</code> to search for crates</li>
+</ul>
+</aside>
+</section>
+<section id="matching" class="level2">
+<h2>Matching</h2>
+<ul>
+<li>Match statements can deconstruct types</li>
+<li>Can match on actual values (like strings), on enums (like <code>Result</code>), and others</li>
+<li>Sometimes need to be careful with ownership</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Be careful matching with constants, a mis-typed constant name will just be a variable that will still match</li>
+<li>Can put conditionals in the match statement, i.e. match a branch if the parameter satisfies a test</li>
+<li>If a match uses an owned value, the ownership is moved into the taken branch</li>
+<li>If a match uses a borrowed value, the branches must use borrowed values also</li>
+<li>Matches are just normal statements, so can return values</li>
+</ul>
+</aside>
+</section>
+<section id="error-handling" class="level2">
+<h2>Error Handling</h2>
+<ul>
+<li>Use <code>.unwrap()</code> on a <code>Result</code> to get the value</li>
+<li>But this will panic (crash) if it is actually an error!</li>
+</ul>
+<figure>
+<img src="img/panic.png" alt="Unwrap panic" /><figcaption>Unwrap panic</figcaption>
+</figure>
+<aside class="notes">
+<ul>
+<li>String parsing can fail</li>
+<li>Other possible failures: file I/O, network requests, division (by zero), ...</li>
+<li>Match where possible</li>
+<li>Unwrap is often considered bad, use <code>.expect()</code> for better error</li>
+</ul>
+</aside>
+</section>
+<section id="iterators" class="level2">
+<h2>Iterators</h2>
+<ul>
+<li>Rust supports functional-style iterators</li>
+<li>Iterators are lazy by default</li>
+<li>But traditional for loops are still available!</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Iterators are not the best solution to every problem (but are for many)</li>
+<li>Can create iterator from vectors (owned lists) or slices (borrowed lists)</li>
+<li>Or can create iterators as generators, without a list behind them</li>
+</ul>
+</aside>
+</section>
+</section>
+<section id="where-do-we-go-from-here" class="slide level1">
+<h1>Where Do We Go From Here?</h1>
+<section id="rust-documentation" class="level2">
+<h2>Rust Documentation</h2>
+<figure>
+<img src="img/docs.png" alt="The Rust API documentation" /><figcaption>The Rust API documentation</figcaption>
+</figure>
+<aside class="notes">
+<ul>
+<li>Cargo can generate docs from your code, enhanced with doc comments</li>
+<li>Every crate on crates.io has docs, as does the standard library</li>
+<li>Popular crates include examples in the docs</li>
+</ul>
+</aside>
+</section>
+<section id="the-rust-book" class="level2">
+<h2>The Rust Book</h2>
+<figure>
+<img src="img/book.png" alt="The Rust Book" /><figcaption>The Rust Book</figcaption>
+</figure>
+<aside class="notes">
+<ul>
+<li>Brilliant resource for learning Rust, or just as a reminder of concepts</li>
+<li>Covers every part of Rust in detail</li>
+<li>Includes gotchas and other useful information</li>
+<li>Currently being rewritten to be even more awesome</li>
+</ul>
+</aside>
+</section>
+<section id="rust-by-example" class="level2">
+<h2>Rust by Example</h2>
+<figure>
+<img src="img/rust-by-example.png" alt="Rust by Example" /><figcaption>Rust by Example</figcaption>
+</figure>
+<aside class="notes">
+<ul>
+<li>Examples of many Rust concepts, complements the book</li>
+</ul>
+</aside>
+</section>
+</section>
+<section id="questions" class="slide level1">
+<h1>Questions?</h1>
+<aside class="notes">
+<p>&quot;Rust makes writing data structures hard, but concurrency easy&quot;</p>
+</aside>
+</section>
+	    </div>
+
+		<div class="presentation-hac-logo">
+			<img src="img/hac-logo-light.svg" alt="Hackers at Cambridge" />
+		</div>
+	</div>
+
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+
+	<script>
+	    Reveal.initialize({
+		controls: true,
+		progress: true,
+		history: true,
+		center: true,
+
+		width: 1024,
+		height: 768,
+
+		// default/cube/page/concave/zoom/linear/fade/none
+				transition: Reveal.getQueryHash().transition || 'default',
+		
+		// Optional libraries used to extend on reveal.js
+		dependencies: [
+		    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+		    { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+		    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+		    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+		    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+		    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+		    // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+		]
+	    });
+
+	</script>
+
+    </body>
+</html>

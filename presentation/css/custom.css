@@ -1,0 +1,21 @@
+.reveal h1 {
+  font-size: 1.7em;
+}
+.reveal h2 {
+  font-size: 1.2em;
+}
+
+.presentation-hac-logo {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.presentation-hac-logo img {
+  height: 4vmin;
+}
+
+/* Reveal adds styles to the <body> element :/ */
+body {
+  background: linear-gradient(to right top, #222, #111);
+}
