@@ -1,0 +1,6 @@
+[package]
+name = "simple-prog"
+version = "0.1.0"
+authors = ["Robin McCorkell <robin@mccorkell.me.uk>"]
+
+[dependencies]
