@@ -58,10 +58,7 @@
 	    <!-- Any section element inside of this container is displayed as a slide -->
 	    <div class="slides">
 
-		<section data-background="img/intro-background.png">
-		    <h1>$title$</h1>
-		    $for(author)$<h3>$author$</h3>$endfor$
-		    <h4>$date$</h4>
+		<section data-background="img/full.png">
 		</section>
 
 		$if(toc)$
