@@ -11,20 +11,6 @@ fn index() -> &'static str {
     "Hello, world!"
 }
 
-/// Return a string that we construct, so it is an owned `String`.
-#[get("/hello/<name>")]
-fn hello(name: String) -> String {
-    // as_ref() is needed to compare against literal strings, which are &str
-    match name.as_ref() {
-        "robin" => {
-            format!("Execute order 66.")
-        },
-        other => {
-            format!("Hello, {}!", other)
-        }
-    }
-}
-
 #[get("/fizzbuzz/<n>")]
 fn fizzbuzz(n: String) -> String {
     // .parse() returns a Result, we match on the result and can respond to
@@ -57,6 +43,6 @@ fn fizzbuzz(n: String) -> String {
 
 fn main() {
     rocket::ignite()
-        .mount("/", routes![index, hello, fizzbuzz])
+        .mount("/", routes![index, fizzbuzz])
         .launch();
 }

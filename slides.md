@@ -132,12 +132,10 @@ Go to live example
 
 1) Go to Rocket HTTP docs
 2) Basic hello world example with Rocket
-3) Create `/hello/<name>` endpoint with `String`
-4) Use match on name to add special message
-5) Create `/fizzbuzz/<n>` endpoint with u32
-6) Manually parse u32 from `String`, using unwrap
-7) Switch unwrap for matching
-8) Extend fizzbuzz with iterators to print all from 1 to n
+3) Create `/fizzbuzz/<n>` endpoint with u32
+4) Manually parse u32 from `String`, using unwrap
+5) Switch unwrap for matching
+6) Extend fizzbuzz with iterators to print all from 1 to n
 </div>
 
 ## External Libraries (Crates)
