@@ -61,6 +61,7 @@
 <ul>
 <li>Started by Mozilla</li>
 <li>Now in use by a growing number of companies</li>
+<li>Amazon, Dropbox, Facebook, Google, Microsoft, Red Hat, Oracle, VMware</li>
 <li>Often compared to Golang, a Google language, but have different goals</li>
 </ul>
 </aside>
@@ -116,6 +117,7 @@
 <li>LogPrinter struct contains a u32 message ID</li>
 <li>Run, see immutability error</li>
 <li>Fix error with <code>Cell&lt;u32&gt;</code></li>
+<li>Extend with LogMessage enum</li>
 </ol>
 </aside>
 </section>
@@ -163,6 +165,27 @@
 </ul>
 </aside>
 </section>
+<section id="matching" class="level2">
+<h2>Matching</h2>
+<ul>
+<li>Match statements can deconstruct types</li>
+<li>Can match on actual values (like strings), on enums (like <code>LogMessage</code>), and others</li>
+<li>Sometimes need to be careful with ownership</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Can put conditionals in the match statement, i.e. match a branch if the parameter satisfies a test</li>
+<li>If a match uses an owned value, the ownership is moved into the taken branch</li>
+<li>If a match uses a borrowed value, the branches must use borrowed values also</li>
+<li>Matches are just normal statements, so can return values</li>
+</ul>
+</aside>
+</section>
+<section id="a-challenge" class="level2">
+<h2>A Challenge</h2>
+<p>Write a <code>LogMessage</code> variant that takes a number and a string, stores the number in the <code>LogPrinter</code> somewhere (a new field), and prints the string.</p>
+<p>Call over a demonstrator when you're done or if you need help!</p>
+</section>
 </section>
 <section id="something-a-bit-more-advanced" class="slide level1">
 <h1>Something a Bit More Advanced</h1>
@@ -172,7 +195,6 @@
 <img src="img/web-server.png" alt="Rust makes web servers easy" /><figcaption>Rust makes web servers easy</figcaption>
 </figure>
 <aside class="notes">
-<p>NEED NIGHTLY</p>
 <p><code>rustup override set nightly</code> in new project directory, also <code>rustup update</code></p>
 <p>Go to live example</p>
 <ol type="1">
@@ -196,23 +218,6 @@
 <aside class="notes">
 <ul>
 <li>Can use <code>cargo search</code> to search for crates</li>
-</ul>
-</aside>
-</section>
-<section id="matching" class="level2">
-<h2>Matching</h2>
-<ul>
-<li>Match statements can deconstruct types</li>
-<li>Can match on actual values (like strings), on enums (like <code>Result</code>), and others</li>
-<li>Sometimes need to be careful with ownership</li>
-</ul>
-<aside class="notes">
-<ul>
-<li>Be careful matching with constants, a mis-typed constant name will just be a variable that will still match</li>
-<li>Can put conditionals in the match statement, i.e. match a branch if the parameter satisfies a test</li>
-<li>If a match uses an owned value, the ownership is moved into the taken branch</li>
-<li>If a match uses a borrowed value, the branches must use borrowed values also</li>
-<li>Matches are just normal statements, so can return values</li>
 </ul>
 </aside>
 </section>

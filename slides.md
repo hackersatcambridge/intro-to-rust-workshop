@@ -16,6 +16,7 @@
 <div class="notes">
 * Started by Mozilla
 * Now in use by a growing number of companies
+* Amazon, Dropbox, Facebook, Google, Microsoft, Red Hat, Oracle, VMware
 * Often compared to Golang, a Google language, but have different goals
 </div>
 
@@ -75,6 +76,7 @@ Go to live example
 2) LogPrinter struct contains a u32 message ID
 3) Run, see immutability error
 4) Fix error with `Cell<u32>`
+5) Extend with LogMessage enum
 </div>
 
 ## Objects
@@ -117,6 +119,26 @@ Go to live example
 * Macros deliniated by the bang after the identifier
 </div>
 
+## Matching
+
+* Match statements can deconstruct types
+* Can match on actual values (like strings), on enums (like `LogMessage`), and others
+* Sometimes need to be careful with ownership
+
+<div class="notes">
+* Can put conditionals in the match statement, i.e. match a branch if the parameter satisfies a test
+* If a match uses an owned value, the ownership is moved into the taken branch
+* If a match uses a borrowed value, the branches must use borrowed values also
+* Matches are just normal statements, so can return values
+</div>
+
+## A Challenge
+
+Write a `LogMessage` variant that takes a number and a string, stores the
+number in the `LogPrinter` somewhere (a new field), and prints the string.
+
+Call over a demonstrator when you're done or if you need help!
+
 # Something a Bit More Advanced
 
 ## Let's write a web server!
@@ -124,8 +146,6 @@ Go to live example
 ![Rust makes web servers easy](img/web-server.png)
 
 <div class="notes">
-NEED NIGHTLY
-
 `rustup override set nightly` in new project directory, also `rustup update`
 
 Go to live example
@@ -147,20 +167,6 @@ Go to live example
 
 <div class="notes">
 * Can use `cargo search` to search for crates
-</div>
-
-## Matching
-
-* Match statements can deconstruct types
-* Can match on actual values (like strings), on enums (like `Result`), and others
-* Sometimes need to be careful with ownership
-
-<div class="notes">
-* Be careful matching with constants, a mis-typed constant name will just be a variable that will still match
-* Can put conditionals in the match statement, i.e. match a branch if the parameter satisfies a test
-* If a match uses an owned value, the ownership is moved into the taken branch
-* If a match uses a borrowed value, the branches must use borrowed values also
-* Matches are just normal statements, so can return values
 </div>
 
 ## Error Handling
