@@ -39,6 +39,12 @@ If broken, `rustup install toolchain stable`
 * Nightly vs stable
 * rustup allows installing different toolchain versions
 * E.g. specific project using special version of nightly (toolchain override)
+
+On Windows:
+* Require Visual C++ build tools
+* Accept default installation options (stable toolchain)
+* PATH added automatically, just need to open new cmd window
+* Recommend PowerShell, can use mkdir/cat etc
 </div>
 
 ## The Build System
