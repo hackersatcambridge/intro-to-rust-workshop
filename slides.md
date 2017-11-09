@@ -20,6 +20,14 @@
 * Often compared to Golang, a Google language, but have different goals
 </div>
 
+#
+
+[Getting Started]{.toc-item-selected}
+
+[Write some Rust]{.toc-item}
+
+[Advanced Concepts]{.toc-item}
+
 # Getting Started
 
 ## Installing rustup
@@ -66,6 +74,14 @@ Basic commands, write on whiteboard:
 * `cargo search <query>`
 * `cargo test`
 </div>
+
+#
+
+[Getting Started]{.toc-item}
+
+[Write some Rust]{.toc-item-selected}
+
+[Advanced Concepts]{.toc-item}
 
 # Starting Simple
 
@@ -144,6 +160,14 @@ Write a `LogMessage` variant that takes a number and a string, stores the
 number in the `LogPrinter` somewhere (a new field), and prints the string.
 
 Call over a demonstrator when you're done or if you need help!
+
+#
+
+[Getting Started]{.toc-item}
+
+[Write some Rust]{.toc-item}
+
+[Advanced Concepts]{.toc-item-selected}
 
 # Something a Bit More Advanced
 

@@ -19,3 +19,11 @@
 body {
   background: linear-gradient(to right top, #222, #111);
 }
+
+.reveal .toc-item, .reveal .toc-item-selected {
+  font-size: 1.6em;
+  font-weight: bold;
+}
+.reveal .toc-item {
+  color: #666;
+}
